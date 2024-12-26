@@ -33,24 +33,34 @@ console.log("Blog ID:", id);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+        console.log("Updated formData:", { ...formData, [name]: value }); // Debugging
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Form data being sent:", formData);
+        console.log("Blog ID:", id);
+    
         try {
             if (id) {
-                // Update existing blog
-                await axios.put(`http://localhost:5000/api/blogs/${id}`, formData);
+                const response = await axios.patch(`http://localhost:5000/api/blogs/${id}`, formData, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                console.log("Blog updated successfully:", response.data);
             } else {
-                // Add new blog
                 const newBlog = { ...formData, blog_no: Date.now() };
-                await axios.post("http://localhost:5000/api/blogs", newBlog);
+                const response = await axios.post("http://localhost:5000/api/blogs", newBlog);
+                console.log("New blog created successfully:", response.data);
             }
-            navigate("/"); // Correct redirection after saving
+            navigate("/");
         } catch (error) {
-            console.error("Error saving blog:", error);
+            console.error("Error saving blog:", error.response?.data || error.message);
         }
     };
+    
+    
     
     
 
