@@ -15,7 +15,7 @@ const BlogForm = () => {
         if (id) {
             const fetchBlog = async () => {
                 try {
-                    const response = await axios.get(`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net/api/blogs/${id}`);
+                    const response = await axios.get(`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.southeastasia-01.azurewebsites.net/api/blogs/${id}`);
                     setFormData({
                         blog_title: response.data.blog_title,
                         blog_content: response.data.blog_content,
@@ -58,14 +58,14 @@ const BlogForm = () => {
     
         try {
             if (id) {
-                await axios.patch(`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net/api/blogs/${id}`, formDataToSend, {
+                await axios.patch(`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.southeastasia-01.azurewebsites.net/api/blogs/${id}`, formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
                 });
                 console.log("Blog updated successfully");
             } else {
-                await axios.post("https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net/api/blogs", formDataToSend, {
+                await axios.post("https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.southeastasia-01.azurewebsites.net/api/blogs", formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
