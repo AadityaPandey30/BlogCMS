@@ -49,7 +49,7 @@ const BlogList = () => {
     >
         {blog.image && (
             <img
-                src={`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net${blog.image}`}
+                src={`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net/${blog.image}`}
                 alt={blog.blog_title}
                 className="w-full h-auto mb-4 rounded-lg"
             />
