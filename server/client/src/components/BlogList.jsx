@@ -8,7 +8,7 @@ const BlogList = () => {
     // Fetch Blogs
     const fetchBlogs = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/blogs");
+            const response = await axios.get("https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net/api/blogs");
             setBlogs(response.data);
         } catch (error) {
             console.error("Error fetching blogs:", error);
@@ -17,7 +17,7 @@ const BlogList = () => {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+            const response = await axios.delete(`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net/api/blogs/${id}`);
             console.log(response.data.message);
             fetchBlogs();
         } catch (error) {
@@ -49,7 +49,7 @@ const BlogList = () => {
     >
         {blog.image && (
             <img
-                src={`http://localhost:5000${blog.image}`}
+                src={`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.eastasia-01.azurewebsites.net${blog.image}`}
                 alt={blog.blog_title}
                 className="w-full h-auto mb-4 rounded-lg"
             />
