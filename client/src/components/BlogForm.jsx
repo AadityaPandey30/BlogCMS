@@ -1,27 +1,26 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-
 const BlogForm = () => {
-    const { id } = useParams(); // Use for edit
-    const navigate = useNavigate(); // Replace useHistory with useNavigate
+    const { id } = useParams(); // For edit
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         blog_title: "",
         blog_content: "",
+        blog_image: null, // To handle image upload
     });
 
-console.log("Form data:", formData);
-console.log("Blog ID:", id);
-
-    // Fetch the blog if editing
     useEffect(() => {
         if (id) {
             const fetchBlog = async () => {
                 try {
                     const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
-                    setFormData(response.data);
+                    setFormData({
+                        blog_title: response.data.blog_title,
+                        blog_content: response.data.blog_content,
+                        blog_image: null, // Image will not be fetched here
+                    });
                 } catch (error) {
                     console.error("Error fetching blog:", error);
                 }
@@ -33,35 +32,51 @@ console.log("Blog ID:", id);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        console.log("Updated formData:", { ...formData, [name]: value }); // Debugging
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setFormData((prev) => ({ ...prev, blog_image: file }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form data being sent:", formData);
-        console.log("Blog ID:", id);
+    
+        const formDataToSend = new FormData();
+        formDataToSend.append("blog_title", formData.blog_title);
+        formDataToSend.append("blog_content", formData.blog_content);
+    
+        if (formData.blog_image) {
+            formDataToSend.append("image", formData.blog_image); // Match backend field
+        }
+
+        if (!formData.blog_title || !formData.blog_content) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+        
     
         try {
             if (id) {
-                const response = await axios.patch(`http://localhost:5000/api/blogs/${id}`, formData, {
+                await axios.patch(`http://localhost:5000/api/blogs/${id}`, formDataToSend, {
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "multipart/form-data",
                     },
                 });
-                console.log("Blog updated successfully:", response.data);
+                console.log("Blog updated successfully");
             } else {
-                const newBlog = { ...formData, blog_no: Date.now() };
-                const response = await axios.post("http://localhost:5000/api/blogs", newBlog);
-                console.log("New blog created successfully:", response.data);
+                await axios.post("http://localhost:5000/api/blogs", formDataToSend, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log("New blog created successfully");
             }
             navigate("/");
         } catch (error) {
             console.error("Error saving blog:", error.response?.data || error.message);
         }
     };
-    
-    
-    
     
 
     return (
@@ -83,6 +98,12 @@ console.log("Blog ID:", id);
                     onChange={handleChange}
                     className="w-full p-2 border rounded-lg mb-4"
                 ></textarea>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="mb-4"
+                />
                 <div className="flex gap-4">
                     <button
                         type="submit"
@@ -93,7 +114,7 @@ console.log("Blog ID:", id);
                     <button
                         type="button"
                         className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-                        onClick={() => navigate("/")} // Use navigate for redirection
+                        onClick={() => navigate("/")}
                     >
                         Cancel
                     </button>
@@ -101,14 +122,6 @@ console.log("Blog ID:", id);
             </form>
         </div>
     );
-};
-
-// Define propTypes
-BlogForm.propTypes = {
-    blog: PropTypes.shape({
-        blog_title: PropTypes.string,
-        blog_content: PropTypes.string,
-    }),
 };
 
 export default BlogForm;
