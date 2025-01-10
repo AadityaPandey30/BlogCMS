@@ -12,9 +12,11 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                {!isAuthenticated ? (
+                {
+                !isAuthenticated ? (
                     <Route path="/" element={<Login onLogin={() => setIsAuthenticated(true)} />} />
-                ) : (
+                ) : 
+                (
                     <Route path="/" element={<AppLayout />}>
                         <Route index element={<BlogList />} />
                         <Route path="blog/new" element={<BlogForm />} />

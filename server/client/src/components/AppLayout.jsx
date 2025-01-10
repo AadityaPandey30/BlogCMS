@@ -4,7 +4,7 @@ const AppLayout = () => {
     return (
         <div>
             <header>
-                <h1 className="text-center my-8">My Blog App</h1>
+                <h1 className="text-center my-8">Fluencer Blog App</h1>
             </header>
             <main>
                 <Outlet />

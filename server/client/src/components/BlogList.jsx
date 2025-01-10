@@ -8,7 +8,7 @@ const BlogList = () => {
     // Fetch Blogs
     const fetchBlogs = async () => {
         try {
-            const response = await axios.get("https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.southeastasia-01.azurewebsites.net/api/blogs");
+            const response = await axios.get("http://localhost:5000/api/blogs");
             setBlogs(response.data);
         } catch (error) {
             console.error("Error fetching blogs:", error);
@@ -17,7 +17,7 @@ const BlogList = () => {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.southeastasia-01.azurewebsites.net/api/blogs/${id}`);
+            const response = await axios.delete(`http://localhost:5000/api/blogs/${id}`);
             console.log(response.data.message);
             fetchBlogs();
         } catch (error) {
@@ -36,7 +36,7 @@ const BlogList = () => {
             <div className="mb-4">
                 <Link
                     to="/blog/new"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:text-yellow-100"
                 >
                     Add New Blog
                 </Link>
@@ -49,7 +49,7 @@ const BlogList = () => {
     >
         {blog.image && (
             <img
-                src={`https://admin-fluencer-blogs-b6ewhacwgdeyh8fw.southeastasia-01.azurewebsites.net/${blog.image}`}
+                src={`http://localhost:5000${blog.image}`}
                 alt={blog.blog_title}
                 className="w-full h-auto mb-4 rounded-lg"
             />
@@ -64,7 +64,7 @@ const BlogList = () => {
         <div className="mt-4 flex gap-4">
             <Link
                 to={`/blog/edit/${blog._id}`}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:text-yellow-100"
             >
                 Update
             </Link>

@@ -10,10 +10,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(express.static("./client/build"));
-app.get("*", (req, res) =>{
-    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"))
-});
+// app.use(express.static("./client/build"));
+// app.get("*", (req, res) =>{
+//     res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"))
+// });
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
