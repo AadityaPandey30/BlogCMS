@@ -8,14 +8,14 @@ const BlogForm = () => {
     const [formData, setFormData] = useState({
         blog_title: "",
         blog_content: "",
-        blog_image: null, // To handle image upload
+        blog_image: null,
     });
 
     useEffect(() => {
         if (id) {
             const fetchBlog = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+                    const response = await axios.get(`https://fluencerblogbackend.onrender.com/api/blogs/${id}`);
                     setFormData({
                         blog_title: response.data.blog_title,
                         blog_content: response.data.blog_content,
@@ -58,14 +58,14 @@ const BlogForm = () => {
     
         try {
             if (id) {
-                await axios.patch(`http://localhost:5000/api/blogs/${id}`, formDataToSend, {
+                await axios.patch(`https://fluencerblogbackend.onrender.com/api/blogs/${id}`, formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
                 });
                 console.log("Blog updated successfully");
             } else {
-                await axios.post("http://localhost:5000/api/blogs", formDataToSend, {
+                await axios.post("https://fluencerblogbackend.onrender.com/api/blogs", formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
